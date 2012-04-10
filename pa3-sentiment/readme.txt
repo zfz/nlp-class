@@ -1,4 +1,4 @@
-This is the programming assignment 3 for Natural Language Processing from Stanford University.
+This is the programming assignment 3 for Natural Language Processing class from Stanford University.
 
 To implement a Naive Bayes classifer for text categories:
 What need to do is to finish the 'addExample' and 'classify' functions in NaiveBayes.py
