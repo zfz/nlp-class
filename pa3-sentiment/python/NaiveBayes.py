@@ -48,9 +48,10 @@ class NaiveBayes:
     self.pos_words = 0 #Number of the words appeared in the pos class.
     self.neg_words = 0
     self.prior = {'pos':0, 'neg':0} #The probablity of the priority.
-    self.pos_sets = 0
-    self.neg_sets = 0
-    self.sets_num = 0
+    #In this examples prior probablity of each class is the same.
+    #self.pos_sets = 0
+    #self.neg_sets = 0
+    #self.sets_num = 0
 
   #############################################################################
   # TODO TODO TODO TODO TODO
@@ -61,13 +62,13 @@ class NaiveBayes:
     """
     score = {'pos':0,'neg':0}
     #Caculate the prior probablity of each class.
-    score['pos'] += math.log(self.pos_sets/float(self.sets_num))
-    score['neg'] += math.log(self.neg_sets/float(self.sets_num))
+    #score['pos'] += math.log(float(self.pos_sets)/(self.sets_num))
+    #score['neg'] += math.log(float(self.neg_sets)/(self.sets_num))
     #Caculate the conditional probablity of each class
     for word in words:
-        score['pos'] += math.log((self.pos_count[word] + 1)/float(self.pos_words + self.vocalbulary))
-        score['neg'] += math.log((self.neg_count[word] + 1)/float(self.neg_words + self.vocalbulary))
-    if score['pos'] >= score['neg']:
+        score['pos'] += math.log(float(self.pos_count[word] + 1)/(self.pos_words + self.vocalbulary))
+        score['neg'] += math.log(float(self.neg_count[word] + 1)/(self.neg_words + self.vocalbulary))
+    if score['pos'] > score['neg']:
         return 'pos'
     else:
         return 'neg'
@@ -83,18 +84,17 @@ class NaiveBayes:
      * Returns nothing
     """
 
-    self.sets_num += 1
+    self.vocalbulary += len(set(words))
+    #self.sets_num += 1
     for word in words:
         if klass == 'pos':
             self.pos_count[word] += 1
             self.pos_words += 1
-            self.vocalbulary += len(set(words))
-            self.pos_sets += 1
+            #self.pos_sets += 1
         else:
             self.neg_count[word] += 1
             self.neg_words += 1
-            self.vocalbulary += len(set(words))
-            self.neg_sets += 1
+            #self.neg_sets += 1
 
   # TODO TODO TODO TODO TODO
   #############################################################################
