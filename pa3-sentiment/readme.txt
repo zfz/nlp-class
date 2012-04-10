@@ -10,7 +10,7 @@ What need to do is to finish the 'addExample' and 'classify' functions in NaiveB
    'Defaultdict' is a useful tool to count the values in a dictionary.
    To run the classifer: "python NaiveBayes.py -f ../data/imdb1/"
 
-** results are as follows:
+** Results are as follows:
    [INFO]Performing 10-fold cross-validation on data set:../data/imdb1/
    [INFO]Fold 0 Accuracy: 0.720000
    [INFO]Fold 1 Accuracy: 0.780000
