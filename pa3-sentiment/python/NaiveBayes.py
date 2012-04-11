@@ -85,15 +85,17 @@ class NaiveBayes:
     """
 
     self.vocalbulary += len(set(words))
+    if klass == 'pos':
+        self.pos_words += len(words)
+    else:
+        self.neg_words += len(words)
     #self.sets_num += 1
     for word in words:
         if klass == 'pos':
             self.pos_count[word] += 1
-            self.pos_words += 1
             #self.pos_sets += 1
         else:
             self.neg_count[word] += 1
-            self.neg_words += 1
             #self.neg_sets += 1
 
   # TODO TODO TODO TODO TODO
