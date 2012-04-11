@@ -41,17 +41,19 @@ class NaiveBayes:
     self.FILTER_STOP_WORDS = False
     self.stopList = set(self.readFile('../data/english.stop'))
     self.numFolds = 10
-    #The variables I have inserted.
+    #The variables I have inserted are as follows.
     self.vocalbulary = 0
     self.pos_count = defaultdict(lambda: 0) #A dictionary to store the number of words in pos class.
     self.neg_count = defaultdict(lambda: 0)
     self.pos_words = 0 #Number of the words appeared in the pos class.
     self.neg_words = 0
-    self.prior = {'pos':0, 'neg':0} #The probablity of the priority.
     #In this examples prior probablity of each class is the same.
-    #self.pos_sets = 0
-    #self.neg_sets = 0
-    #self.sets_num = 0
+    self.pos_sets = 0
+    self.neg_sets = 0
+    self.sets_num = 0
+    self.neg_tags_filter = False
+    self.neg_tags = ["not", "don't", "doesn't","is't", "never","cannot", "can't", "haven't", "wasn't", "weren't", "Don't", "Doesn't", "Can't", "Havn't", "Not", "Wasn't", "Weren't", "Never"]
+    self.neg_mark = []
 
   #############################################################################
   # TODO TODO TODO TODO TODO
@@ -62,9 +64,9 @@ class NaiveBayes:
     """
     score = {'pos':0,'neg':0}
     #Caculate the prior probablity of each class.
-    #score['pos'] += math.log(float(self.pos_sets)/(self.sets_num))
-    #score['neg'] += math.log(float(self.neg_sets)/(self.sets_num))
-    #Caculate the conditional probablity of each class
+    score['pos'] += math.log(float(self.pos_sets)/(self.sets_num))
+    score['neg'] += math.log(float(self.neg_sets)/(self.sets_num))
+    #Caculate the conditional probablity of each class.
     for word in words:
         score['pos'] += math.log(float(self.pos_count[word] + 1)/(self.pos_words + self.vocalbulary))
         score['neg'] += math.log(float(self.neg_count[word] + 1)/(self.neg_words + self.vocalbulary))
@@ -83,17 +85,36 @@ class NaiveBayes:
      * in the NaiveBayes class.
      * Returns nothing
     """
+    #Trim the words set.
+    for word in words:
+        #Lowercase each word, which seems that have no effect on the results.
+        #word = word.lower
+        #Filter the notation in the words set.()
+        if len(word) < 3:
+            #The results are not good filterd by ascii code, removing the two-letter words instead.
+            #if (ord(word)>122 or ord(word)<65 or (ord(word)>90 and ord(word)<97)):
+            words.remove(word)
+    #Negation handling.
+    #if self.neg_tags_filter:
+    #    for word in words:
+    #        if word in self.neg_tags:
+    #            i = words.index(word)
+    #            try:
+    #                words[i+1] = "not_" + words[i+1]
+    #                words.remove(word)
+    #            except:
+    #                pass
 
     self.vocalbulary += len(set(words))
-    #self.sets_num += 1
+    self.sets_num += 1
     if klass == 'pos':
         self.pos_words += len(words)
-        #self.pos_sets += 1
+        self.pos_sets += 1
         for word in words:
             self.pos_count[word] += 1
     else:
         self.neg_words += len(words)
-        #self.neg_sets += 1
+        self.neg_sets += 1
         for word in words:
             self.neg_count[word] += 1
 
